@@ -3,7 +3,7 @@
 ##############################################
 
 resource "aws_ecr_repository" "app" {
-  name                 = "recipe-app-api-app"
+  name                 = "recipe-app-api-app-latest"
   image_tag_mutability = "MUTABLE"
   force_delete         = true
 
@@ -14,7 +14,7 @@ resource "aws_ecr_repository" "app" {
 }
 
 resource "aws_ecr_repository" "proxy" {
-  name                 = "recipe-app-api-proxy"
+  name                 = "recipe-app-api-proxy-latest"
   image_tag_mutability = "MUTABLE"
   force_delete         = true
 
