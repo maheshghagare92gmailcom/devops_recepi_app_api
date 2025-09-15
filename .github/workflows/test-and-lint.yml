@@ -27,8 +27,8 @@ jobs:
       - name: Python flake8
         run: docker compose run --rm app sh -c "flake8"
 
-  # terraform:
-  #   name: Terraform
+  terraform:
+    name: Terraform
   #   runs-on: ubuntu-22.04
   #   steps:
   #     - name: Login to Docker Hub
