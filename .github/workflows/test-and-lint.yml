@@ -1,18 +1,27 @@
-name: Test and Lint
-
-on:
-  workflow_call:
-    secrets:
-      DOCKERHUB_USER:
-        required: true
-        description: "Username for DockerHub auth"
-      DOCKERHUB_TOKEN:
-        required: true
-        description: "Token for DockerHub auth"
-
 jobs:
+  changes:
+    runs-on: ubuntu-22.04
+    outputs:
+      python: ${{ steps.filter.outputs.python }}
+      terraform: ${{ steps.filter.outputs.terraform }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            python:
+              - 'app/**'
+              - 'requirements.txt'
+              - 'requirements.dev.txt'
+              - 'docker-compose*.yml'
+            terraform:
+              - 'infra/**'
+              - '.github/workflows/deploy.yml'
+
   python:
-    name: Python
+    needs: changes
+    if: ${{ needs.changes.outputs.python == 'true' }}
     runs-on: ubuntu-22.04
     steps:
       - name: Login to Docker Hub
@@ -28,7 +37,8 @@ jobs:
         run: docker compose run --rm app sh -c "flake8"
 
   terraform:
-    name: Terraform
+    needs: changes
+    if: ${{ needs.changes.outputs.terraform == 'true' }}
     runs-on: ubuntu-22.04
     steps:
       - name: Login to Docker Hub
