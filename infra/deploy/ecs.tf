@@ -235,9 +235,9 @@ resource "aws_ecs_service" "api" {
     security_groups = [aws_security_group.ecs_service.id]
   }
 
-#   load_balancer {
-#     target_group_arn = aws_lb_target_group.api.arn
-#     container_name   = "proxy"
-#     container_port   = 8000
-#   }
+  #   load_balancer {
+  #     target_group_arn = aws_lb_target_group.api.arn
+  #     container_name   = "proxy"
+  #     container_port   = 8000
+  #   }
 }
